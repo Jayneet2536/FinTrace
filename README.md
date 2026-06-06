@@ -107,6 +107,7 @@ flowchart TB
     SB -- "10. Proxy Request" --> INF
     INF -- "11. Prompt Context" --> LLM
     LLM -- "12. Narrative STR" --> INF
+```
 
 ### Detailed request flow
 
