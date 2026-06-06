@@ -1,0 +1,41 @@
+/.idea/
+/.vscode/
+*.log
+*.tmp
+*.temp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Backend build artifacts
+/backend/backend/target/
+/backend/backend/.mvn/wrapper/maven-wrapper.jar
+
+# Python virtual environments
+/inference/inference/
+/transaction/transaction/
+
+# Python cache
+**/__pycache__/
+**/*.py[cod]
+
+# Node build and dependencies
+/frontend/node_modules/
+/frontend/dist/
+
+# Environment files
+*.env
+*.env.*
+
+# Docker
+docker-compose.override.yml
+
+# IDE files
+*.iml
+
+# Temporary OS files
+Desktop.ini
+
+# Ignore local generated data
+*.sqlite
+*.db

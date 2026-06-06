@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+torch
+torch-geometric
+numpy
+google-generativeai>=0.8.0
+pydantic
+python-dotenv>=1.0.0
