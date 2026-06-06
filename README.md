@@ -1,3 +1,7 @@
+<img width="1898" height="1047" alt="Screenshot 2026-06-06 154229" src="https://github.com/user-attachments/assets/fa065e6e-11e2-4476-8d48-20db8ed2fb4f" />
+<img width="1901" height="1051" alt="Screenshot 2026-06-06 154240" src="https://github.com/user-attachments/assets/5df172a5-5f99-4b54-9056-9a24da237dc6" />
+
+
 # FinTrace: AML Fraud Detection System
 
 FinTrace is a full-stack AML fraud detection application demonstrating real-time transaction processing, graph analytics, ML inference, and reporting.
@@ -65,48 +69,32 @@ FinTrace is a full-stack AML fraud detection application demonstrating real-time
 ### System diagram
 
 ```mermaid
-flowchart TB
-    %% Styling
-    classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff
-    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff
-    classDef data fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff
-    classDef ai fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff
-    classDef external fill:#6b7280,stroke:#374151,stroke-width:2px,color:#fff
+flowchart LR
+    classDef backend fill:#10b981,stroke:#047857,color:#fff
+    classDef data fill:#f59e0b,stroke:#b45309,color:#fff
+    classDef ai fill:#8b5cf6,stroke:#6d28d9,color:#fff
+    classDef external fill:#6b7280,stroke:#374151,color:#fff
+    classDef frontend fill:#3b82f6,stroke:#1d4ed8,color:#fff
 
-    %% Nodes
-    TG["Transaction Generator<br/>(Python Script)"]:::external
-    
-    subgraph Core ["Backend System"]
-        SB["Spring Boot Backend<br/>(Java 17)"]:::backend
-        WS["WebSocket / STOMP<br/>Broker"]:::backend
-    end
-    
-    subgraph Infrastructure ["Data & Messaging"]
-        KAFKA[("Apache Kafka<br/>(transactions-buffer)")]:::data
-        NEO4J[("Neo4j Graph DB")]:::data
-    end
-    
-    subgraph Machine Learning ["Inference Layer"]
-        INF["Inference Service<br/>(FastAPI + PyTorch)"]:::ai
-        LLM["Google Gemini API<br/>(STR Generation)"]:::external
-    end
-    
-    UI["React Frontend<br/>(Dashboard)"]:::frontend
+    TG["Transaction Generator\n(Python)"]:::external
+    SB["Spring Boot Backend\n(Java 17)"]:::backend
+    KAFKA[("Kafka Buffer")]:::data
+    NEO4J[("Neo4j\nGraph DB")]:::data
+    INF["Inference Service\n(FastAPI + PyTorch)"]:::ai
+    LLM["Google Gemini API"]:::external
+    UI["React Dashboard"]:::frontend
 
-    %% Flow/Connections
-    TG -- "1. HTTP POST<br/>/api/transactions" --> SB
-    SB -- "2. Publish Event" --> KAFKA
-    KAFKA -- "3. Consume Batch" --> SB
-    SB -- "4. Write & Query<br/>2-Hop Neighborhood" --> NEO4J
-    SB -- "5. HTTP POST<br/>/score" --> INF
-    INF -- "6. Return Fraud Score<br/>& Typology" --> SB
-    SB -- "7. Broadcast Alert" --> WS
-    WS -- "8. Push Notification<br/>/topic/fraud-alerts" --> UI
-    
-    UI -- "9. HTTP POST<br/>/api/alerts/{id}/report" --> SB
-    SB -- "10. Proxy Request" --> INF
-    INF -- "11. Prompt Context" --> LLM
-    LLM -- "12. Narrative STR" --> INF
+    TG -->|"POST /api/transactions"| SB
+    SB -->|"Publish"| KAFKA
+    KAFKA -->|"Consume & Batch"| SB
+    SB -->|"Write + 2-hop query"| NEO4J
+    SB -->|"POST /score"| INF
+    INF -->|"Fraud score + typology"| SB
+    SB -->|"WebSocket alert"| UI
+    UI -->|"POST /report"| SB
+    SB -->|"Proxy"| INF
+    INF -->|"Prompt"| LLM
+    LLM -->|"STR narrative"| INF
 ```
 
 ### Detailed request flow
