@@ -247,32 +247,8 @@ cd transaction
 python transaction_generator.py --mode auto
 ```
 
-## Clean repository guidance
 
-Remove or ignore generated artifacts before pushing:
-- `backend/backend/target/`
-- `backend/.idea/`
-- `inference/__pycache__/`
-- `inference/inference/`
-- `transaction/transaction/`
-- root `package-lock.json` if there is no root `package.json`
-- local `.env` files and logs
-
-## Added files for Dockerization
-
-- `docker-compose.yml` — full stack orchestration
-- `backend/backend/Dockerfile` — Java service container
-- `frontend/Dockerfile` — React production container
-- `inference/Dockerfile` — Python inference container
-- `transaction/Dockerfile` — optional transaction generator container
-- `.gitignore` — root-level ignore rules
-
-## Notes for reviewers
-
-- The backend now reads service endpoints from environment variables if provided.
-- The project supports a full Dockerized deployment path.
-- The inference service is designed as an independent service to keep ML separate from the API layer.
-
+```
 │   │   ├── pom.xml                      # Maven dependencies
 │   │   ├── mvnw / mvnw.cmd              # Maven wrapper
 │   │   └── src/main/java/com/aml/
@@ -347,15 +323,14 @@ Educational/Demo Project
 
 ---
 
-## 👨‍💻 Tech Stack
+## 🛠️ Tech Stack
 
 | Layer | Technology | Purpose |
-|-------|-----------|---------|
+|-------|------------|---------|
 | **Frontend** | React 18, Vite 5, Tailwind CSS | Dashboard UI |
 | **Backend** | Spring Boot 3.5, Spring WebSocket | REST APIs & real-time messaging |
 | **Database** | Neo4j 5.14 | Graph database for account relationships |
-| **Message Queue** | Kafka 7.5 | Transaction streaming |
-| **ML/AI** | PyTorch, GNN (torch-geometric) | Fraud detection model |
-| **LLM** | Google Gemini API | Report generation |
-| **Infrastructure** | Docker, Docker Compose | Containerization |
-
+| **Message Queue** | Apache Kafka | Transaction streaming & backpressure buffering |
+| **ML / AI** | PyTorch, PyTorch Geometric (GNN) | Fraud detection model inference |
+| **LLM** | Google Gemini API | Automated STR narrative generation |
+| **Infrastructure** | Docker, Docker Compose | Containerised multi-service orchestration |
